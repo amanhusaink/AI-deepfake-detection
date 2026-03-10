@@ -1,0 +1,19 @@
+HOW TO RUN THE BACKEND SERVER (2 SIMPLE STEPS):
+
+STEP 1: Fix indentation in any text editor
+- Open: backend/server_working.py
+- Replace all tabs with 4 spaces (or re-indent manually)
+- Save the file
+
+STEP 2: Run the server
+python3 backend/server_working.py
+
+OR use Python3.10/3.11 for full ML functionality:
+brew install python@3.10
+python3.10 -m venv venv
+source venv/bin/activate
+cd backend
+pip install -r requirements.txt
+uvicorn app:app --reload
+
+The frontend (frontend/index.html) will then connect automatically!

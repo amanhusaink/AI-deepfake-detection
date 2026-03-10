@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Models (large files)
+models/*.pth
+models/*/pytorch_model.bin
+models/*/tf_model.h5
+
+# Data
+data/images/*
+!data/images/.gitkeep
+data/training/**
+!data/training/.gitkeep
+data/sample_data/*
+!data/sample_data/.gitkeep
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+test_*.png
+*_training_plot.png
+
+# Environment
+.env
+.env.local
