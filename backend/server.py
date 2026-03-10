@@ -23,16 +23,16 @@ async def detect_image(file: UploadFile = File(...)):
   if ext not in ['.jpg', '.jpeg', '.png', '.webp']:
         raise HTTPException(status_code=400, detail=f'Invalid file type: {ext}')
   try:
-      filename = f'{uuid.uuid4()}{ext}'
-      filepath = os.path.join(UPLOAD_DIR, filename)
-      content = await file.read()
-      with open(filepath, 'wb') as f:
-          f.write(content)
-      prediction = random.choice(['Real', 'Fake'])
-      confidence = random.uniform(75.0, 98.0)
-       return {'success': True, 'prediction': prediction, 'confidence': round(confidence, 2), 'confidence_percentage': f'{confidence:.2f}%', 'color': '#EF4444' if prediction == 'Fake' else '#10B981', 'filename': filename, 'timestamp': datetime.now().isoformat(), 'demo_mode': True}
+     filename = f'{uuid.uuid4()}{ext}'
+     filepath = os.path.join(UPLOAD_DIR, filename)
+     content = await file.read()
+     with open(filepath, 'wb') as f:
+         f.write(content)
+     prediction = random.choice(['Real', 'Fake'])
+     confidence = random.uniform(75.0, 98.0)
+     return {'success': True, 'prediction': prediction, 'confidence': round(confidence, 2), 'confidence_percentage': f'{confidence:.2f}%', 'color': '#EF4444' if prediction == 'Fake' else '#10B981', 'filename': filename, 'timestamp': datetime.now().isoformat(), 'demo_mode': True}
   except Exception as e:
-       raise HTTPException(status_code=500, detail=str(e))
+      raise HTTPException(status_code=500, detail=str(e))
 
 @app.post('/detect-text')
 async def detect_text(request: Request):
