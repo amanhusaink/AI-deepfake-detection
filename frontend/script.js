@@ -27,7 +27,7 @@ async function checkBackendStatus() {
         
         if (response.ok) {
             const data = await response.json();
-            statusElement.textContent = `Online (${data.models.cuda_available ? 'GPU' : 'CPU'})`;
+            statusElement.textContent = 'Online';
             statusElement.className = 'text-green-600 font-medium';
             statusBanner.classList.remove('hidden');
             statusBanner.className = 'mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center justify-between';
