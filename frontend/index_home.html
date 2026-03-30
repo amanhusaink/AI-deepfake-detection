@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepFake Detector - AI-Powered Detection System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8fafc; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-shield-alt text-2xl" style="color: #667eea;"></i>
+                    <span class="text-2xl font-bold gradient-text">DeepFake AI</span>
+                </div>
+
+                <!-- Nav Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-700 hover:text-indigo-600 transition">Features</a>
+                    <a href="#how-it-works" class="text-gray-700 hover:text-indigo-600 transition">How It Works</a>
+                    <a href="#about" class="text-gray-700 hover:text-indigo-600 transition">About</a>
+                </div>
+
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.location.href='login.html'" class="px-4 py-2 text-gray-700 hover:text-indigo-600 font-medium transition">
+                        Login
+                    </button>
+                    <button onclick="window.location.href='signup.html'" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">Detect Deepfakes with AI</h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-100">Advanced AI-powered detection system to identify AI-generated images and text</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="window.location.href='signup.html'" class="px-8 py-4 bg-white text-indigo-600 font-bold rounded-lg hover:shadow-xl transition transform hover:scale-105">
+                    Get Started Free
+                </button>
+                <button onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-indigo-600 transition">
+                    Learn More
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 px-4 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Key Features</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
+                    <div class="text-4xl mb-4"><i class="fas fa-image text-indigo-600"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Image Detection</h3>
+                    <p class="text-gray-600">Advanced CNN algorithms to detect AI-generated and deepfake images with high accuracy. Face detection ensures real authentication.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
+                    <div class="text-4xl mb-4"><i class="fas fa-file-alt text-purple-600"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Text Analysis</h3>
+                    <p class="text-gray-600">Intelligent text pattern analysis to identify AI-generated content. Analyzes vocabulary, syntax, and writing style patterns.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
+                    <div class="text-4xl mb-4"><i class="fas fa-lock text-pink-600"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Secure & Private</h3>
+                    <p class="text-gray-600">Your uploads are processed securely and never stored. Enterprise-grade encryption for all data.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
+                    <div class="text-4xl mb-4"><i class="fas fa-bolt text-yellow-600"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Real-Time Results</h3>
+                    <p class="text-gray-600">Instant analysis with confidence scores. Get detailed reports in seconds, not minutes.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
+                    <div class="text-4xl mb-4"><i class="fas fa-chart-line text-green-600"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Detailed Analytics</h3>
+                    <p class="text-gray-600">Comprehensive confidence metrics, heatmaps, and detailed breakdowns of detection results.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
+                    <div class="text-4xl mb-4"><i class="fas fa-mobile-alt text-blue-600"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Multi-Platform</h3>
+                    <p class="text-gray-600">Works seamlessly on desktop, tablet, and mobile. Responsive design for all devices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-16 px-4 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">How It Works</h2>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="bg-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">1</div>
+                    <h3 class="font-bold mb-2">Upload Content</h3>
+                    <p class="text-gray-600">Upload image or text for analysis</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-purple-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">2</div>
+                    <h3 class="font-bold mb-2">AI Analysis</h3>
+                    <p class="text-gray-600">Advanced AI processes the content</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-pink-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">3</div>
+                    <h3 class="font-bold mb-2">Detection</h3>
+                    <p class="text-gray-600">Identifies AI-generated content</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">4</div>
+                    <h3 class="font-bold mb-2">Get Results</h3>
+                    <p class="text-gray-600">Instant confidence scores & report</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 px-4 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-8 gradient-text">About DeepFake AI</h2>
+            <p class="text-lg text-gray-700 text-center mb-8">
+                DeepFake AI is a cutting-edge detection system built with advanced machine learning algorithms to help you identify AI-generated content. 
+                As deepfakes and AI-generated content become increasingly sophisticated, our platform provides the tools you need to verify authenticity 
+                and protect against misinformation.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-shield-alt text-2xl text-indigo-400"></i>
+                        <span class="text-xl font-bold">DeepFake AI</span>
+                    </div>
+                    <p class="text-gray-400">Advanced AI-powered detection for deepfakes and AI-generated content.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#features" class="hover:text-indigo-400 transition">Features</a></li>
+                        <li><a href="#how-it-works" class="hover:text-indigo-400 transition">How It Works</a></li>
+                        <li><a href="#about" class="hover:text-indigo-400 transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h4 class="font-bold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-indigo-400 transition">Documentation</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">FAQ</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Help Center</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-indigo-400 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Cookie Policy</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-center md:text-left mb-4 md:mb-0">
+                        &copy; 2026 DeepFake AI. All rights reserved.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

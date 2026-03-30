@@ -77,28 +77,31 @@ async def startup_event():
     
     logger.info("Initializing Deepfake Detection Models...")
     
+    # Initialize image model
     try:
-        # Initialize image model
         if os.path.exists(IMAGE_MODEL_PATH):
             image_model_handler = initialize_image_model(IMAGE_MODEL_PATH)
             logger.info(f"✓ Image model loaded from: {IMAGE_MODEL_PATH}")
         else:
             image_model_handler = initialize_image_model()
             logger.warning("⚠ Using uninitialized image model (no weights found)")
-        
-        # Initialize text model
+    except Exception as e:
+        logger.error(f"Failed to initialize image model: {e}")
+        image_model_handler = None
+    
+    # Initialize text model
+    try:
         if os.path.exists(TEXT_MODEL_PATH):
             text_model_handler = initialize_text_model(TEXT_MODEL_PATH)
             logger.info(f"✓ Text model loaded from: {TEXT_MODEL_PATH}")
         else:
             text_model_handler = initialize_text_model()
             logger.warning("⚠ Using uninitialized text model (no weights found)")
-        
-        logger.info("✓ All models initialized successfully")
-        
     except Exception as e:
-        logger.error(f"Error initializing models: {e}")
-        raise
+        logger.error(f"Failed to initialize text model: {e}")
+        text_model_handler = None
+    
+    logger.info("✓ Model initialization complete")
 
 
 @app.get("/")
@@ -141,7 +144,7 @@ async def detect_image(file: UploadFile = File(...)):
         JSON response with prediction and confidence score
     """
     if image_model_handler is None:
-        raise HTTPException(status_code=500, detail="Image model not initialized")
+        raise HTTPException(status_code=503, detail="Image detection model not available. Please train or download model weights.")
     
     try:
         # Validate file type
@@ -279,7 +282,7 @@ async def detect_text(request: Request):
         JSON response with prediction and confidence score
     """
     if text_model_handler is None:
-        raise HTTPException(status_code=500, detail="Text model not initialized")
+        raise HTTPException(status_code=503, detail="Text detection model not available. Please train or download model weights.")
     
     try:
         # Parse request body

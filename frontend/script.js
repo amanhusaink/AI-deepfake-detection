@@ -10,10 +10,78 @@ let currentHeatmapBase64 = null;
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
+    checkAuthentication();
     initializeDragAndDrop();
     checkBackendStatus();
     updateCharCount();
 });
+
+/**
+ * Authentication Management
+ */
+function checkAuthentication() {
+    const isAuthenticated = localStorage.getItem('user_authenticated') === 'true';
+    
+    if (!isAuthenticated) {
+        // Redirect to home page if not authenticated
+        window.location.href = 'index_home.html';
+        return;
+    }
+    
+    // Load user info
+    const userName = localStorage.getItem('user_name') || 'User';
+    const userEmail = localStorage.getItem('user_email') || 'user@example.com';
+    
+    document.getElementById('userName').textContent = userName;
+    document.getElementById('userEmail').textContent = userEmail;
+    document.getElementById('userInfo').classList.remove('hidden');
+}
+
+function toggleUserMenu() {
+    const menu = document.getElementById('userMenu');
+    menu.classList.toggle('hidden');
+    
+    // Close menu if clicking outside
+    document.addEventListener('click', function closeMenu(e) {
+        if (!e.target.closest('#userMenuBtn') && !e.target.closest('#userMenu')) {
+            menu.classList.add('hidden');
+            document.removeEventListener('click', closeMenu);
+        }
+    });
+}
+
+function viewProfile() {
+    const userName = localStorage.getItem('user_name') || 'User';
+    const userEmail = localStorage.getItem('user_email') || 'user@example.com';
+    const loginProvider = localStorage.getItem('login_provider') || 'email';
+    const loginTime = localStorage.getItem('login_time') || 'N/A';
+    
+    alert(`Profile Info:\n\nName: ${userName}\nEmail: ${userEmail}\nProvider: ${loginProvider}\nLogin: ${loginTime}`);
+    document.getElementById('userMenu').classList.add('hidden');
+}
+
+function viewHistory() {
+    alert('Analysis history feature coming soon!');
+    document.getElementById('userMenu').classList.add('hidden');
+}
+
+function downloadStats() {
+    alert('Download stats feature coming soon!');
+    document.getElementById('userMenu').classList.add('hidden');
+}
+
+function logout() {
+    // Clear authentication
+    localStorage.removeItem('user_authenticated');
+    localStorage.removeItem('user_email');
+    localStorage.removeItem('user_name');
+    localStorage.removeItem('user_picture');
+    localStorage.removeItem('login_provider');
+    localStorage.removeItem('login_time');
+    
+    // Redirect to home
+    window.location.href = 'index_home.html';
+}
 
 /**
  * Backend Health Check
@@ -218,16 +286,30 @@ function displayImageResult(data, analysisTime) {
     const timestampEl = document.getElementById('image-timestamp');
     const resultDiv = document.getElementById('image-result');
     
+    // Check if this is an error response
+    if (!data.success) {
+        predictionEl.textContent = 'ERROR: ' + (data.error || 'Detection failed');
+        confidenceEl.textContent = '-';
+        confidenceBar.style.width = '0%';
+        timestampEl.textContent = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} (${analysisTime.toFixed(2)}s)`;
+        resultDiv.classList.remove('hidden');
+        return;
+    }
+    
+    // Get color - default to gray if not provided
+    const color = data.color || (data.is_fake ? '#EF4444' : '#10B981');
+    
     // Set prediction with color
-    predictionEl.textContent = data.prediction;
-    predictionEl.style.color = data.color;
+    predictionEl.textContent = data.prediction || 'UNKNOWN';
+    predictionEl.style.color = color;
     
     // Set confidence
-    confidenceEl.textContent = data.confidence_percentage;
+    confidenceEl.textContent = data.confidence_percentage || (data.confidence + '%') || '-';
     
     // Update confidence bar
-    confidenceBar.style.width = `${data.confidence}%`;
-    confidenceBar.style.backgroundColor = data.color;
+    const confidenceValue = data.confidence || 0;
+    confidenceBar.style.width = `${Math.min(confidenceValue, 100)}%`;
+    confidenceBar.style.backgroundColor = color;
     
     // Set timestamp
     const now = new Date();
@@ -365,16 +447,26 @@ function displayTextResult(data, analysisTime) {
     const timestampEl = document.getElementById('text-timestamp');
     const resultDiv = document.getElementById('text-result');
     
+    // Check for errors
+    if (!data.success) {
+        predictionEl.textContent = 'ERROR: ' + (data.detail || data.error || 'Analysis failed');
+        predictionEl.style.color = '#EF4444';
+        resultDiv.classList.remove('hidden');
+        return;
+    }
+    
     // Set prediction with color
-    predictionEl.textContent = data.prediction;
-    predictionEl.style.color = data.color;
+    const color = data.color || (data.is_ai_generated ? '#EF4444' : '#10B981');
+    predictionEl.textContent = data.prediction || 'UNKNOWN';
+    predictionEl.style.color = color;
     
     // Set confidence
-    confidenceEl.textContent = data.confidence_percentage;
+    confidenceEl.textContent = data.confidence_percentage || '0%';
     
     // Update confidence bar
-    confidenceBar.style.width = `${data.confidence}%`;
-    confidenceBar.style.backgroundColor = data.color;
+    const confidence = data.confidence || 0;
+    confidenceBar.style.width = `${Math.min(confidence, 100)}%`;
+    confidenceBar.style.backgroundColor = color;
     
     // Set timestamp
     const now = new Date();

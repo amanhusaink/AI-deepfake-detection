@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - DeepFake Detector</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .form-input { border: 1px solid #e5e7eb; padding: 12px 16px; border-radius: 8px; font-size: 16px; transition: all 0.3s; }
+        .form-input:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); outline: none; }
+        .password-strength-meter { height: 4px; border-radius: 2px; margin-top: 8px; transition: all 0.3s; }
+        .strength-weak { background-color: #ef4444; }
+        .strength-fair { background-color: #f97316; }
+        .strength-good { background-color: #eab308; }
+        .strength-strong { background-color: #22c55e; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="window.location.href='index_home.html'">
+                    <i class="fas fa-shield-alt text-2xl" style="color: #667eea;"></i>
+                    <span class="text-2xl font-bold gradient-text">DeepFake AI</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-700">Already have an account?</span>
+                    <button onclick="window.location.href='login.html'" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition">
+                        Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sign Up Container -->
+    <div class="min-h-screen flex items-center justify-center px-4 py-12">
+        <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
+                <p class="text-gray-600">Join thousands of users detecting deepfakes</p>
+            </div>
+
+            <!-- Sign Up Form -->
+            <form id="signupForm" class="space-y-4" onsubmit="handleSignup(event)">
+                <!-- Full Name -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="fullname" required class="form-input w-full" placeholder="John Doe">
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="email" required class="form-input w-full" placeholder="you@example.com">
+                    <p class="text-xs text-gray-500 mt-1" id="emailStatus"></p>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <div class="relative">
+                        <input type="password" id="password" required class="form-input w-full" placeholder="••••••••" oninput="checkPasswordStrength()">
+                        <button type="button" class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-eye" onclick="togglePasswordVisibility()"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength-meter" id="strengthMeter"></div>
+                    <p class="text-xs text-gray-500 mt-1" id="strengthText"></p>
+                </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                    <div class="relative">
+                        <input type="password" id="confirmPassword" required class="form-input w-full" placeholder="••••••••">
+                        <p class="text-xs text-gray-500 mt-1" id="passwordMatch"></p>
+                    </div>
+                </div>
+
+                <!-- Terms Checkbox -->
+                <label class="flex items-start space-x-3 mt-4">
+                    <input type="checkbox" id="terms" required class="w-4 h-4 text-indigo-600 rounded mt-1">
+                    <span class="text-sm text-gray-700">
+                        I agree to the
+                        <a href="#" class="text-indigo-600 hover:underline">Terms of Service</a> and
+                        <a href="#" class="text-indigo-600 hover:underline">Privacy Policy</a>
+                    </span>
+                </label>
+
+                <!-- Sign Up Button -->
+                <button type="submit" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-lg hover:shadow-lg transition transform hover:scale-105 mt-6">
+                    Create Account
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="my-6 flex items-center">
+                <div class="flex-1 border-t border-gray-300"></div>
+                <span class="px-3 text-gray-500 text-sm">OR</span>
+                <div class="flex-1 border-t border-gray-300"></div>
+            </div>
+
+            <!-- Google Sign Up -->
+            <button type="button" onclick="demoSignup()" class="w-full py-3 border-2 border-gray-300 rounded-lg hover:border-indigo-600 transition flex items-center justify-center space-x-3">
+                <i class="fab fa-google text-red-500"></i>
+                <span class="font-medium text-gray-700">Sign up with Google</span>
+            </button>
+
+            <!-- Demo Sign Up -->
+            <button type="button" onclick="demoSignupDirect()" class="w-full py-3 mt-3 border-2 border-gray-300 rounded-lg hover:border-gray-400 transition flex items-center justify-center space-x-3">
+                <i class="fas fa-play-circle text-blue-500"></i>
+                <span class="font-medium text-gray-700">Try Demo</span>
+            </button>
+
+            <!-- Sign In Link -->
+            <p class="text-center text-sm text-gray-600 mt-6">
+                Already have an account?
+                <a href="login.html" class="text-indigo-600 hover:underline font-medium">Sign In</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const pwInput = document.getElementById('password');
+            const icon = event.target;
+            if (pwInput.type === 'password') {
+                pwInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                pwInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function checkPasswordStrength() {
+            const password = document.getElementById('password').value;
+            const meter = document.getElementById('strengthMeter');
+            const text = document.getElementById('strengthText');
+            const confirm = document.getElementById('confirmPassword');
+
+            let strength = 0;
+            const strengthLevels = ['weak', 'fair', 'good', 'strong'];
+
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[!@#$%^&*]/.test(password)) strength++;
+
+            strength = Math.min(strength, 3);
+
+            const strengthNames = ['Weak', 'Fair', 'Good', 'Strong'];
+            const strengthColors = ['strength-weak', 'strength-fair', 'strength-good', 'strength-strong'];
+
+            meter.className = 'password-strength-meter ' + strengthColors[strength];
+            meter.style.width = ((strength + 1) * 25) + '%';
+            text.textContent = strengthNames[strength];
+
+            // Check password match
+            if (confirm.value) {
+                if (password === confirm.value) {
+                    document.getElementById('passwordMatch').textContent = '✓ Passwords match';
+                    document.getElementById('passwordMatch').className = 'text-xs text-green-600 mt-1';
+                } else {
+                    document.getElementById('passwordMatch').textContent = '✗ Passwords do not match';
+                    document.getElementById('passwordMatch').className = 'text-xs text-red-600 mt-1';
+                }
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            if (!terms) {
+                alert('Please accept the terms of service!');
+                return;
+            }
+
+            // Store user data (in production, send to backend)
+            localStorage.setItem('user_email', email);
+            localStorage.setItem('user_name', fullname);
+            localStorage.setItem('user_authenticated', 'true');
+            localStorage.setItem('signup_date', new Date().toISOString());
+            localStorage.setItem('login_provider', 'email');
+
+            window.location.href = 'index.html';
+        }
+
+        function demoSignup() {
+            // Google signup demo
+            const email = 'demo.user' + Math.random().toString(36).substring(7) + '@deepfakeai.com';
+            localStorage.setItem('user_email', email);
+            localStorage.setItem('user_name', 'Google Demo User');
+            localStorage.setItem('user_authenticated', 'true');
+            localStorage.setItem('login_provider', 'google');
+            
+            window.location.href = 'index.html';
+        }
+
+        function demoSignupDirect() {
+            // Direct demo signup
+            localStorage.setItem('user_email', 'demo@deepfakeai.com');
+            localStorage.setItem('user_name', 'Demo User');
+            localStorage.setItem('user_authenticated', 'true');
+            localStorage.setItem('login_provider', 'demo');
+            
+            window.location.href = 'index.html';
+        }
+
+        // Real-time password matching
+        document.getElementById('confirmPassword').addEventListener('input', () => {
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            if (confirm) {
+                if (password === confirm) {
+                    document.getElementById('passwordMatch').textContent = '✓ Passwords match';
+                    document.getElementById('passwordMatch').className = 'text-xs text-green-600 mt-1';
+                } else {
+                    document.getElementById('passwordMatch').textContent = '✗ Passwords do not match';
+                    document.getElementById('passwordMatch').className = 'text-xs text-red-600 mt-1';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

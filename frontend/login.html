@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DeepFake Detector</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .form-input { border: 1px solid #e5e7eb; padding: 12px 16px; border-radius: 8px; font-size: 16px; transition: all 0.3s; }
+        .form-input:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); outline: none; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="window.location.href='index_home.html'">
+                    <i class="fas fa-shield-alt text-2xl" style="color: #667eea;"></i>
+                    <span class="text-2xl font-bold gradient-text">DeepFake AI</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-700">Don't have an account?</span>
+                    <button onclick="window.location.href='signup.html'" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Container -->
+    <div class="min-h-screen flex items-center justify-center px-4 py-12">
+        <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
+                <p class="text-gray-600">Sign in to your account to access deepfake detection</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-5" onsubmit="handleLogin(event)">
+                <!-- Email -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="email" required class="form-input w-full" placeholder="you@example.com">
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <div class="relative">
+                        <input type="password" id="password" required class="form-input w-full" placeholder="••••••••">
+                        <button type="button" class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-eye" onclick="togglePasswordVisibility()"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="w-4 h-4 text-indigo-600 rounded">
+                        <span class="ml-2 text-sm text-gray-700">Remember me</span>
+                    </label>
+                    <a href="#" class="text-sm text-indigo-600 hover:text-indigo-700">Forgot password?</a>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-lg hover:shadow-lg transition transform hover:scale-105">
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="my-6 flex items-center">
+                <div class="flex-1 border-t border-gray-300"></div>
+                <span class="px-3 text-gray-500 text-sm">OR</span>
+                <div class="flex-1 border-t border-gray-300"></div>
+            </div>
+
+            <!-- Google Sign In -->
+            <div id="g_id_onload"
+                 data-client_id="133256175149-s8q8jvj8j8j8j8j8j8j8j8j8j8j.apps.googleusercontent.com"
+                 data-callback="handleGoogleLogin"
+                 class="flex justify-center">
+            </div>
+            <div id="g_id_signin" data-type="standard" data-size="large" data-theme="outline" class="flex justify-center mb-4"></div>
+
+            <!-- Google Button Alternative -->
+            <button type="button" onclick="window.location.href='#'" class="w-full py-3 border-2 border-gray-300 rounded-lg hover:border-indigo-600 transition flex items-center justify-center space-x-3">
+                <i class="fab fa-google text-red-500"></i>
+                <span class="font-medium text-gray-700">Continue with Google</span>
+            </button>
+
+            <!-- Additional Options -->
+            <button type="button" onclick="demoLogin()" class="w-full py-3 mt-3 border-2 border-gray-300 rounded-lg hover:border-gray-400 transition flex items-center justify-center space-x-3">
+                <i class="fas fa-play-circle text-blue-500"></i>
+                <span class="font-medium text-gray-700">Demo Account</span>
+            </button>
+
+            <!-- Terms -->
+            <p class="text-center text-sm text-gray-600 mt-6">
+                By signing in, you agree to our
+                <a href="#" class="text-indigo-600 hover:underline">Terms of Service</a> and
+                <a href="#" class="text-indigo-600 hover:underline">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const pwInput = document.getElementById('password');
+            const icon = event.target;
+            if (pwInput.type === 'password') {
+                pwInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                pwInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Store credentials in localStorage (in production, use secure authentication)
+            localStorage.setItem('user_email', email);
+            localStorage.setItem('user_authenticated', 'true');
+            localStorage.setItem('login_time', new Date().toISOString());
+            
+            // Redirect to detection page
+            window.location.href = 'index.html';
+        }
+
+        function handleGoogleLogin(response) {
+            // Handle Google Sign-In response
+            const token = response.credential;
+            
+            // Decode JWT token to get user info
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            
+            const user = JSON.parse(jsonPayload);
+            
+            // Store authentication
+            localStorage.setItem('user_email', user.email);
+            localStorage.setItem('user_name', user.name);
+            localStorage.setItem('user_picture', user.picture);
+            localStorage.setItem('user_authenticated', 'true');
+            localStorage.setItem('login_provider', 'google');
+            
+            // Redirect to detection page
+            window.location.href = 'index.html';
+        }
+
+        function demoLogin() {
+            // Demo account login
+            localStorage.setItem('user_email', 'demo@deepfakeai.com');
+            localStorage.setItem('user_name', 'Demo User');
+            localStorage.setItem('user_authenticated', 'true');
+            localStorage.setItem('login_provider', 'demo');
+            
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
